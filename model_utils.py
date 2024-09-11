@@ -6,6 +6,9 @@ import sys
 import numpy as np
 import torch
 
+import inspect
+import functools
+import traceback
 
 class ProteinMPNN(torch.nn.Module):
     def __init__(
@@ -1744,15 +1747,8 @@ class EncLayer(torch.nn.Module):
 def gather_edges(edges, neighbor_idx):
     # Features [B,N,N,C] at Neighbor indices [B,N,K] => Neighbor features [B,N,K,C]
     neighbors = neighbor_idx.unsqueeze(-1).expand(-1, -1, -1, edges.size(-1))
-    # drop the last dimension fo both before gathering if the last dimension is 1
-    if edges.size(-1) == 1:
-        edges = edges.squeeze(-1)
-    if neighbors.size(-1) == 1:
-        neighbors = neighbors.squeeze(-1)
     edge_features = torch.gather(edges, 2, neighbors)
 
-    # Re-pack to original shape
-    edge_features = edge_features.view(list(neighbor_idx.shape)[:3] + [-1])
 
 
     return edge_features
