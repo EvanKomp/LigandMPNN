@@ -35,7 +35,11 @@ def main(args) -> None:
     torch.manual_seed(seed)
     random.seed(seed)
     np.random.seed(seed)
-    device = torch.device("cuda" if (torch.cuda.is_available()) else "cpu")
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    if not device == 'mps':
+        print(device)
+        raise ValueError('Could not find mac GPU')
+    device = torch.device(device)
     folder_for_outputs = args.out_folder
     base_folder = folder_for_outputs
     if base_folder[-1] != "/":

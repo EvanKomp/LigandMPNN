@@ -10,10 +10,6 @@ git clone https://github.com/dauparas/LigandMPNN.git
 cd LigandMPNN
 bash get_model_params.sh "./model_params"
 
-#setup your conda/or other environment
-#conda create -n ligandmpnn_env python=3.11
-#pip3 install -r requirements.txt
-
 python run.py \
         --seed 111 \
         --pdb_path "./inputs/1BC8.pdb" \
@@ -24,9 +20,13 @@ python run.py \
 To run the model you will need to have Python>=3.0, PyTorch, Numpy installed, and to read/write PDB files you will need [Prody](https://pypi.org/project/ProDy/).
 
 For example to make a new conda environment for LigandMPNN run:
+> EDIT 09.24 Evan Komp - updated for mac
 ```
-conda create -n ligandmpnn_env python=3.11
-pip3 install -r requirements.txt
+CONDA_SUBDIR=osx-64 conda create -n ligmpnn
+conda env config vars set CONDA_SUBDIR=osx-64
+conda deactivate
+conda activate ligmpnn
+pip install -r requirements.txt # updated as well
 ```
 
 ### Main differences compared with [ProteinMPNN](https://github.com/dauparas/ProteinMPNN) code
